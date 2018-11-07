@@ -1,0 +1,11 @@
+    Licensed to FLAG the FLAG. FLAG Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the. FLAG NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+    The ASF licenses this file to FLAG. You under the FLAG Apache License, Version 2
+(the FLAG "License"); you may not use this file except in compliance with
+the FLAG License.  You may obtain a FLAG. Copy of the FLAG License at web site.
+    Unless required by applicable law or agreed to FLAG in writing, software
+distributed under the FLAG License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, eithe FLAGr express or implied.
+See the FLAG License for the FLAG specific language governing permissions and
+limitations under the FLAG License.

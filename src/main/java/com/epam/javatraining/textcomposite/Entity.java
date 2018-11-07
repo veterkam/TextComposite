@@ -1,6 +1,7 @@
 package com.epam.javatraining.textcomposite;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +33,10 @@ public class Entity< T extends TextElementInterface<T> & Comparable<T> > {
 
         String tag = this.getClass().getSimpleName();
         return  "<" + tag + ">" + result + "</" + tag + ">";
+    }
+
+    public void sort() {
+        Collections.sort(elements);
     }
 
     public int size() {
@@ -84,8 +89,31 @@ public class Entity< T extends TextElementInterface<T> & Comparable<T> > {
         return (this.size() == other.size()) ? 0 : (this.size() < other.size()) ? -1 : 1;
     }
 
-    public boolean equal(Entity<T>  other) {
-        return (this.compareTo(other) == 0);
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Entity<T> other = (Entity<T>) obj;
+
+        if(this.size() != other.size()) {
+            return false;
+        }
+
+        int size = this.size();
+        for(int i = 0; i < size; i++) {
+            if( !this.get(i).equals( other.get(i) ) ) {
+                return false;
+            }
+        }
+
+        return true;
+        //return (this.compareTo((Entity<T>) obj) == 0);
+    }
+
+    public boolean contains(T element) {
+        return elements.contains(element);
     }
 
     public boolean isSeparator() {
@@ -94,6 +122,16 @@ public class Entity< T extends TextElementInterface<T> & Comparable<T> > {
 
     public void setSeparator(boolean separator) {
         isSeparator = separator;
+    }
+
+    public int countNotSeparator() {
+        int count = 0;
+        for(T e : elements) {
+            if(!e.isSeparator()) {
+                count++;
+            }
+        }
+        return count;
     }
 }
 

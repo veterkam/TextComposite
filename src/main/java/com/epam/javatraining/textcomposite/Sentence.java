@@ -55,4 +55,6 @@ public class Sentence extends Entity<Word>
     public Sentence copy() {
         return (Sentence) super.copy();
     }
+
+
 }

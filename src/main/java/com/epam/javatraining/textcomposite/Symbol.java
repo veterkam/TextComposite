@@ -31,7 +31,13 @@ public class Symbol implements Comparable<Symbol>, TextElementInterface<Symbol> 
         return (this.ch == other.ch) ? 0 : (this.ch < other.ch) ? -1 : 1;
     }
 
-    public boolean equal(Symbol other) {
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Symbol other = (Symbol) obj;
         return (this.ch == other.ch);
     }
 
