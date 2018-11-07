@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Entity< T extends TextElementInterface<T> & Comparable<T> > {
     private List<T> elements;
-    private boolean isSeparator;
+    private boolean isSeparator = false;
 
     public Entity() { elements = new ArrayList<>(); }
 
@@ -62,7 +62,6 @@ public class Entity< T extends TextElementInterface<T> & Comparable<T> > {
         return elements.isEmpty();
     }
 
-    //@Override
     public Entity<T> copy() {
         List<T> list = new LinkedList<>();
         for(T element : elements) {
@@ -72,7 +71,6 @@ public class Entity< T extends TextElementInterface<T> & Comparable<T> > {
         return new Entity<>(list);
     }
 
-    //@Override
     public int compareTo(Entity<T> other) {
 
         int size = Math.min(this.size(), other.size());

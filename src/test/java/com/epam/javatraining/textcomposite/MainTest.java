@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class MainTest
 {
     public static Logger logger = LogManager.getLogger("TextCompositeSuite");
     /**
@@ -65,11 +64,52 @@ public class AppTest
         return content;
     }
 
-    @Test
-    public void SentenceSuite() {
-        String content = readAllBytes("./src/test/resources/text.txt");
+    public String removeOccurrencesFirstOrLastLetter(String content, boolean first) {
+
         Text text = new Text(content);
-        //Paragraph s = new Paragraph("Contributor license agreements.?! Hello!");
-        logger.trace(text.toMarketString());
+
+        for(int i = 0; i < text.size(); i++) {
+            Paragraph paragraph = text.get(i);
+
+            if(!paragraph.isSeparator()) {
+
+                for(int j = 0; j < paragraph.size(); j++) {
+
+                    Sentence sentence = paragraph.get(j);
+                    if(!sentence.isSeparator()) {
+
+                        for(int k = 0; k < sentence.size(); k++) {
+
+                            Word word = sentence.get(k);
+                            if(!word.isSeparator()) {
+
+                                Symbol symbol = (first) ? word.get(0) : word.get( word.size()-1 );
+                                int offset = (first) ? 1 : 0;
+                                int m = offset;
+                                offset--;
+                                 while( m < word.size() + offset) {
+                                    if(word.get(m).equal(symbol)) {
+                                        word.remove(m);
+                                    } else {
+                                        m++;
+                                    }
+                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return text.toString();
+    }
+
+    @Test
+    public void Task15() {
+        String content = readAllBytes("./src/test/resources/text.txt");
+
+        logger.trace("\n" + content);
+        logger.trace("\n\n" + removeOccurrencesFirstOrLastLetter(content, true) );
+        logger.trace("\n\n" + removeOccurrencesFirstOrLastLetter(content, false) );
     }
 }
