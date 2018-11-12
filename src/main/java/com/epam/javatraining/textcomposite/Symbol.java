@@ -43,7 +43,9 @@ public class Symbol implements Comparable<Symbol>, TextElementInterface<Symbol> 
 
     @Override
     public Symbol copy() {
-        return new Symbol(ch);
+        Symbol s = new Symbol(ch);
+        s.setSeparator(isSeparator());
+        return s;
     }
 
     public int size() {

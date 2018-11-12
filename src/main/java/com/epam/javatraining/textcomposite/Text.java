@@ -1,5 +1,6 @@
 package com.epam.javatraining.textcomposite;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Text extends Entity<Paragraph>
@@ -9,51 +10,60 @@ public class Text extends Entity<Paragraph>
 
     public Text(String str) {
         super();
-
         // Cut text
-        TextCutter cutter = new TextCutter(str, REGEX_PARAGRAPH_DELIMITER);
+        List<String> list = TextCutter.cut(str, REGEX_PARAGRAPH_DELIMITER);
 
-        boolean isSepFirst = cutter.isSeparatorFirst();
-        List<String> first = isSepFirst ? cutter.getSeparators() : cutter.getElements();
-        List<String> second = !isSepFirst ? cutter.getSeparators() : cutter.getElements();
-
-        // Assemble list of words and separators
-        int fi = 0;
-        int si = 0;
-        Paragraph paragraph;
-        while( fi < first.size() && si < second.size()) {
-            paragraph = new Paragraph(first.get(fi));
-            paragraph.setSeparator(isSepFirst);
-            this.add(paragraph);
-
-            paragraph = new Paragraph(second.get(si));
-            paragraph.setSeparator(!isSepFirst);
-            this.add(paragraph);
-
-            fi++;
-            si++;
-        }
-
-        if(fi < first.size()) {
-            paragraph = new Paragraph(first.get(fi));
-            paragraph.setSeparator(isSepFirst);
-            this.add(paragraph);
-        }
-
-        if(si < second.size()) {
-            paragraph = new Paragraph(second.get(si));
-            paragraph.setSeparator(!isSepFirst);
-            this.add(paragraph);
+        for(String s : list) {
+            this.add(new Paragraph(s));
         }
     }
 
+    public Text(Entity<Paragraph> t) {
+        super(t);
+    }
+
     @Override
-    public int compareTo(Text text) {
-        return super.compareTo(text);
+    public int compareTo(Text other) {
+
+        int size = Math.min(this.size(), other.size());
+        for(int i = 0; i < size; i++) {
+            int compare = this.get(i).compareTo( other.get(i) );
+            if( compare != 0 ) {
+                return compare;
+            }
+        }
+
+        return (this.size() == other.size()) ? 0 : (this.size() < other.size()) ? -1 : 1;
+    }
+
+    public void sort() {
+        Collections.sort(elements);
     }
 
     @Override
     public Text copy() {
-        return (Text) super.copy();
+        return new Text( super.copy() );
+    }
+
+    public boolean contains(Word word) {
+
+        for(Paragraph paragraph : elements) {
+            if(paragraph.contains(word)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean contains(Sentence sentence) {
+
+        for(Paragraph paragraph : elements) {
+            if(paragraph.contains(sentence)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

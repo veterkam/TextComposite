@@ -44,6 +44,29 @@ public class TextCutter {
         }
     }
 
+    public static List<String> cut(String text, String regexDelimiter) {
+        String[] slices = text.split(regexDelimiter);
+        List<String>elements = new ArrayList<>();
+
+        if(slices.length == 0) {
+            if(text.length() != 0) {
+                elements.add(text);
+            }
+        } else {
+            int begin;
+            int end = 0;
+            for(int i = 0; i < slices.length; i++) {
+                // Read element with delimiter
+                begin = end;
+                end = (i == slices.length - 1) ? text.length() : text.indexOf(slices[i+1], begin);
+                String element = text.substring(begin, end);
+                elements.add(element);
+            }
+        }
+
+        return elements;
+    }
+
     public List<String> getElements() {
         return elements;
     }
